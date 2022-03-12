@@ -1,0 +1,55 @@
+--1.
+--Method 1
+select distinct c.city as CustomerCity, e.city as EmployeeCity
+from customers c join employees e on c.city=e.city
+--Method 2
+select distinct City 
+from Customers
+where city in(
+select city from Employees)
+--2.
+--Use Sub-query
+select distinct city
+from customers
+where city not in(
+select city from Employees)
+--Do not use Sub-query
+select distinct c.city as CustomerCity, e.city as EmployeeCity
+from Customers c left join Employees e on c.City=e.City
+--3.
+--4.
+select c.City,od.OrderID,od.Quantity
+from Customers c left join Orders o on c.city=o.ShipCity left join [Order Details] od on od.OrderID=o.OrderID
+--6.
+select od.orderid, count(od.orderid)
+from [Order Details] od
+group by od.orderid
+having count(od.orderid)>1
+union 
+select o.shipcity 
+from orders o
+where o.OrderID 
+--7.
+select City as CityName, count(CustomerID) as NumberOfCustomer
+from Customers
+group by City
+Having count(CustomerID)>1
+--8.
+select top 5 UnitsOnOrder,ProductName
+from Products
+order by 1 desc
+union 
+select ShipCity
+from Orders
+--9.
+--use sub-query
+select City
+from Employees e left join orders o on e.City=o.ShipCity
+where city not in(
+select city from Orders)
+--10.
+select p.ProductName,o.OrderDate
+from [Order Details] od join Orders o on od.OrderID=o.OrderID 
+join Products p on p.ProductID=od.ProductID
+--11.
+--using Group by or Union to remove the dupicates record
